@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./EnigmaLi.css";
 
-const Enigma = (status) => {
+const Enigma = (enigmaId, title, status) => {
     const [color, setColor] = useState();
     const [icon, setIcon] = useState();
     useEffect(()=>{
@@ -13,9 +13,9 @@ const Enigma = (status) => {
 
 
     return (
-        <li className="enili">
-            <h4 className="enili-title" style={{color: color}}>Title</h4>
-            <a href="/enigma/1"><img className="eni-icon" src={icon} alt="Icon" style={{ backgroundColor: color }} /></a>
+        <li key={enigmaId} className="enili" data-id={enigmaId}>
+            <h4 className="enili-title" style={{color: color}}>{title}</h4>
+            <a href={"/enigma/" + enigmaId}><img className="eni-icon" src={icon} alt="Icon" style={{ backgroundColor: color }} /></a>
         </li>
     );
 };

@@ -1,0 +1,55 @@
+header {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 20px #fc3cb2;
+  background-color: #080d19;
+}
+header h1 {
+  flex: 1;
+  font-size: 2.5rem;
+  font-family: "OCR A Extended";
+}
+header h1 .red {
+  color: red;
+}
+header nav {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+}
+header nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+header nav ul li {
+  margin: 0 10px;
+}
+header nav ul li a {
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+}
+header nav ul li a.active, header nav ul li a:hover {
+  color: #fc3cb2;
+}
+header nav ul li a.active {
+  text-decoration: underline;
+}
+header .login,
+header .group-box {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+header .login {
+  color: #fc3cb2;
+  text-decoration: none;
+}
+header .login:hover {
+  text-decoration: underline;
+}

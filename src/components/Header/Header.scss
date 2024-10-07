@@ -1,0 +1,66 @@
+header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 0 20px #fc3cb2;
+    background-color: #080d19;
+
+    h1 {
+        flex: 1;
+        font-size: 2.5rem;
+        font-family: "OCR A Extended";
+
+        .red {
+            color: red;
+        }
+    }
+
+    nav {
+        flex: 1;
+        display: flex;
+        justify-content: space-around;
+
+        ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+
+            li {
+                margin: 0 10px;
+
+                a {
+                    font-size: 1.5rem;
+                    color: white;
+                    text-decoration: none;
+
+                    &.active,
+                    &:hover {
+                        color: #fc3cb2;
+                    }
+
+                    &.active {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+    .login,
+    .group-box {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .login {
+        color: #fc3cb2;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

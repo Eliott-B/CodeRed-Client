@@ -4,9 +4,9 @@ import "./Home.css";
 const Home = () => {
     return (
         <>
-            <Header/>
+            <Header />
             <div className="h-body">
-                <h2>Note de mission</h2>
+                <h2>Note de <span className="glow">mission</span></h2>
                 <div className="h-infos">
                     <p className="h-intro">
                         Bienvenue agent, ceci est un rappel de votre mission et de son objectif. Votre mission si toutefois vous l'acceptez est de protéger New Eden de l’attaque qu’elle subit. Pour cela vous devez résoudre différentes énigmes en équipe. Chaque énigme rapporte un nombre de points qui sera cumulé aux autres à la fin de votre mission. Les 3 meilleures équipes seront récompensées.
@@ -53,8 +53,8 @@ const Home = () => {
                         </p>
                     </div>
                     <div className="h-i-footer">
-                        <span>BONNE MISSION AGENT !</span>
-                        <span>TEMRINÉ</span>
+                        <span className="glow">BONNE MISSION AGENT !</span>
+                        <span className="glow">TEMRINÉ</span>
                     </div>
                 </div>
             </div>

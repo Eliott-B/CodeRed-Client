@@ -11,7 +11,7 @@ const SolutionCreation = () => {
     const [enigmaId, setEnigmaId] = useState(0);
     const [groupId, setGroupId] = useState(0);
     const [solution, setSolution] = useState("");
-    const [inputPath, setInputPath] = useState("");
+    const [inputFile, setInputFile] = useState("");
     const [consoleLog, setConsoleLog] = useState("");
 
     const [error, setError] = useState("");
@@ -54,30 +54,43 @@ const SolutionCreation = () => {
     const createSolution = async (e) => {
         e.preventDefault();
         setError("");
-        await axios.post("/solutions/", {
-            "enigmaId": enigmaId,
-            "groupId": groupId,
-            "solution": solution,
-            "inputPath": inputPath,
-            "consoleOutput": consoleLog
-        }, {
-            headers: {
-                "Authorization": "Bearer " + Cookies.get("token")
-        }})
-        .then(() => {
-            setError("")
-            setValidation(true);
-        })
-        .catch(err => {
-            setError(err.message);
-        });
+
+        let reader = new FileReader();
+
+        reader.onloadend = async function (evt) {
+            if (evt.target.readyState === FileReader.DONE) {
+                const arrayBuffer = evt.target.result;
+                const uint8Array = new Uint8Array(arrayBuffer);
+                const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
+
+                try {
+                    await axios.post("/solutions/", {
+                        enigmaId,
+                        groupId,
+                        solution,
+                        inputFile: base64String,
+                        consoleOutput: consoleLog
+                    }, {
+                        headers: {
+                            Authorization: "Bearer " + Cookies.get("token")
+                        }
+                    });
+
+                    setError("");
+                    setValidation(true);
+                } catch (err) {
+                    setError(err.message);
+                }
+            }
+        };
+        reader.readAsArrayBuffer(inputFile[0]);
     }
 
     return (
         <form onSubmit={createSolution} className="solution-box">
             <h3>Créer une solution :</h3>
             <div className="enigma-box">
-                <label htmlFor="name">Nom de l'enigme :</label>
+                <label htmlFor="name">Nom de l&apos;enigme :</label>
                 <select id="enigmas" name="enigmas" onChange={(e) => {
                     const selectedIndex = e.target.options.selectedIndex;
                     setEnigmaId(parseInt(e.target.options[selectedIndex].getAttribute("data-id")));
@@ -107,8 +120,8 @@ const SolutionCreation = () => {
                 <input type="text" name="solution" id="solution" onChange={(e) => setSolution(e.target.value)}/>
             </div>
             <div className="inputpath-box">
-                <label htmlFor="input">Chemin d'accès au fichier :</label>
-                <input type="file" accept=".txt" onChange={(e) => setInputPath(e.target.value)}/>
+                <label htmlFor="input">Chemin d&apos;accès au fichier :</label>
+                <input type="file" accept=".txt" onChange={(e) => setInputFile(e.target.files)}/>
             </div>
             <div className="consolelog-box">
                 <label htmlFor="consolelog">Console log :</label>

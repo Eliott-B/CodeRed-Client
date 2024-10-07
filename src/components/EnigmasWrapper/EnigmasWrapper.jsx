@@ -10,7 +10,6 @@ const EnigmasWrapper = ({ enigmas }) => {
             {enigmas.map((enigma) => (
                 <EnigmaTile key={enigma.id} title={enigma.title} isSolved={enigma.isSolved} id={enigma.id} />
             ))}
-            <EnigmaTile key={5} title={"Enigme réussie"} isSolved={true} id={5} />
         </ul>
     );
 };

@@ -11,7 +11,7 @@ const SolutionCreation = () => {
     const [enigmaId, setEnigmaId] = useState(0);
     const [groupId, setGroupId] = useState(0);
     const [solution, setSolution] = useState("");
-    const [inputPath, setInputPath] = useState("");
+    const [inputFile, setInputFile] = useState("");
     const [consoleLog, setConsoleLog] = useState("");
 
     const [error, setError] = useState("");
@@ -54,30 +54,73 @@ const SolutionCreation = () => {
     const createSolution = async (e) => {
         e.preventDefault();
         setError("");
-        await axios.post("/solutions/", {
-            "enigmaId": enigmaId,
-            "groupId": groupId,
-            "solution": solution,
-            "inputPath": inputPath,
-            "consoleOutput": consoleLog
-        }, {
-            headers: {
-                "Authorization": "Bearer " + Cookies.get("token")
-        }})
-        .then(() => {
-            setError("")
-            setValidation(true);
-        })
-        .catch(err => {
-            setError(err.message);
-        });
+
+        let reader = new FileReader();
+        let fileByteArray = [];
+        reader.readAsArrayBuffer(inputFile[0]);
+        reader.onloadend = function (evt) {
+            if (evt.target.readyState == FileReader.DONE) {
+                let arrayBuffer = evt.target.result,
+                array = new Uint8Array(arrayBuffer);
+                for (let i = 0; i < array.length; i++) {
+                    fileByteArray.push(array[i]);
+                }
+
+                axios.post("/solutions/", {
+                    "enigmaId": enigmaId,
+                    "groupId": groupId,
+                    "solution": solution,
+                    "inputFile": JSON.stringify(fileByteArray),
+                    "consoleOutput": consoleLog
+                }, {
+                    headers: {
+                        "Authorization": "Bearer " + Cookies.get("token")
+                }})
+                .then(() => {
+                    setError("")
+                    setValidation(true);
+                })
+                .catch(err => {
+                    setError(err.message);
+                });
+            }
+        }
+
+        // const fileReader = new FileReader();
+
+        // fileReader.onload = async function(event) {
+        //     const arrayBuffer = event.target.result;
+        //     const uint8Array = new Uint8Array(arrayBuffer);
+        //     const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
+        //     // Utiliser le tableau de bytes comme vous le souhaitez
+        //     await axios.post("/solutions/", {
+        //         "enigmaId": enigmaId,
+        //         "groupId": groupId,
+        //         "solution": solution,
+        //         "inputFile": base64String,
+        //         "consoleOutput": consoleLog
+        //     }, {
+        //         headers: {
+        //             "Authorization": "Bearer " + Cookies.get("token")
+        //     }})
+        //     .then(() => {
+        //         setError("")
+        //         setValidation(true);
+        //     })
+        //     .catch(err => {
+        //         setError(err.message);
+        //     });
+        //   };
+        
+        // console.log(inputFile[0]);
+        // fileReader.readAsArrayBuffer(inputFile[0]);
     }
 
     return (
         <form onSubmit={createSolution} className="solution-box">
             <h3>Créer une solution :</h3>
             <div className="enigma-box">
-                <label htmlFor="name">Nom de l'enigme :</label>
+                <label htmlFor="name">Nom de l&apos;enigme :</label>
                 <select id="enigmas" name="enigmas" onChange={(e) => {
                     const selectedIndex = e.target.options.selectedIndex;
                     setEnigmaId(parseInt(e.target.options[selectedIndex].getAttribute("data-id")));
@@ -107,8 +150,8 @@ const SolutionCreation = () => {
                 <input type="text" name="solution" id="solution" onChange={(e) => setSolution(e.target.value)}/>
             </div>
             <div className="inputpath-box">
-                <label htmlFor="input">Chemin d'accès au fichier :</label>
-                <input type="file" accept=".txt" onChange={(e) => setInputPath(e.target.value)}/>
+                <label htmlFor="input">Chemin d&apos;accès au fichier :</label>
+                <input type="file" accept=".txt" onChange={(e) => setInputFile(e.target.files)}/>
             </div>
             <div className="consolelog-box">
                 <label htmlFor="consolelog">Console log :</label>

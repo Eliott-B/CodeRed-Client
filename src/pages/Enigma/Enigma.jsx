@@ -12,6 +12,7 @@ const Enigma = () => {
     const [enigma, setEnigma] = useState({});
     const [serverSolution, setServerSolution] = useState({});
     const [userSolution, setUserSolution] = useState("");
+    const [downloadLink, setDownloadLink] = useState(null);
     const [error, setError] = useState("");
     const [validation, setValidation] = useState(false);
 
@@ -43,45 +44,66 @@ const Enigma = () => {
             })
             .then((res) => {
                 setServerSolution(res.data);
-                if (res.data.length > 0) {
-                    let consoleOutput = res.data[0].console_output;
-                    if (consoleOutput) {
-                        console.log(res.data[0].console_output);
-                    }
+                if (res.data && res.data.input_file && res.data.input_file.data) {
+                    const fileData = res.data.input_file.data;
+                    console.log("Received file data:", fileData);
+                    const bytes = new Uint8Array(fileData);
+
+                    // Utilisez TextDecoder pour convertir les octets en chaîne de caractères
+                    const decoder = new TextDecoder('utf-8');
+                    const fileContent = decoder.decode(bytes);
+
+                    console.log("Decoded file content:", fileContent);
+
+                    // Créez un Blob à partir de la chaîne de caractères
+                    const textBlob = new Blob([fileContent], { type: 'text/plain' });
+
+                    // Générez une URL de téléchargement à partir du Blob
+                    const url = window.URL.createObjectURL(textBlob);
+                    setDownloadLink(url);
                 }
+        
             })
             .catch((err) => {
                 console.log(err);
             });
     }, [enigma]);
 
-    const validSolution = async (e) => {
+    const validSolution = (e) => {
         e.preventDefault();
         // if (serverSolution.solution !== userSolution) {
         //     setError("Réponse invalide");
         //     return;
         // }
         setError("");
-        await axios.put("/solutions/"+id, {
+        axios.put("/solutions/"+id, {
             "answer": userSolution
-        }, {  
-            params: {},
-            headers: {
-                "Authorization": "Bearer " + Cookies.get("token")
-        }})
-        .then(() => {
-            setError("")
-            setValidation(true);
-        })
-        .catch(err => {
-            if (err.status === 400) {
-                setError("Réponse invalide");
-            }
-            else {
-                setError(err.message);
-            }
+            }, {  
+                params: {},
+                headers: {
+                    "Authorization": "Bearer " + Cookies.get("token")
+            }})
+            .then(() => {
+                setError("")
+                setValidation(true);
+            })
+            .catch(err => {
+                if (err.status === 400) {
+                    setError("Réponse invalide");
+                }
+                else {
+                    setError(err.message);
+                }
         });
     }
+
+    const handleDownload = () => {
+        const a = document.createElement('a');
+        a.href = downloadLink;
+        a.download = 'input.txt';
+        a.click();
+        URL.revokeObjectURL(downloadLink);
+    };
 
     return (
         <>
@@ -96,15 +118,14 @@ const Enigma = () => {
                     </div>
                     
                 </div>
-                { serverSolution.length > 0 && serverSolution[0].input_file ?
+                { serverSolution && serverSolution.input_file ?
                     <div className="eni-file">
-                        <span>Filename.txt</span>
-                        <a href=""><img src={serverSolution} alt="Download" /></a>
+                        <button onClick={handleDownload}>Télécharger le fichier</button>
                     </div>
                     : null }
 
                 
-                { serverSolution.length > 0 && ! serverSolution[0].success ?
+                { serverSolution && ! serverSolution.success ?
                     <form onSubmit={validSolution} method="post">
                     <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
                     <input type="submit" value="Soumettre" />
@@ -112,8 +133,8 @@ const Enigma = () => {
                     { validation ? <span>Solution validée</span> : null }
                     <button>Indice</button>
                     </form>
-                : serverSolution.length > 0 ?
-                    <input type="text" name="answer" id="answer" placeholder={serverSolution[0].solution} disabled/>
+                : serverSolution ?
+                    <input type="text" name="answer" id="answer" placeholder={serverSolution.solution} disabled/>
                 : null }
                 
             </div>

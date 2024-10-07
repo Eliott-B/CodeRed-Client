@@ -30,6 +30,7 @@ const Login = () => {
             setStatus(response.status);
             Cookies.set("token", response.data.token, { expires: 1 });
             Cookies.set("groupId", response.data.id, { expires: 1 });
+            window.location.href = "/";
         })
         .catch(err => {
             if (err.response.status === 500) {

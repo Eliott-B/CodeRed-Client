@@ -39,7 +39,9 @@ const Header = () => {
                 }
             })
             .then(response => {
+                console.log(response.data.points);
                 group["points"] = response.data.points;
+                console.log(group["points"]);
             })
             .catch(err => {
                 console.log(err.message);
@@ -57,7 +59,7 @@ const Header = () => {
             {isConnected ? 
             <div className="group-box">
                 <h2>{group.name}</h2>
-                <span>Score: {group.points}pts</span>
+                <span>Score: {group.points || 0}pts</span>
             </div>
             :
             <a href="/login">Connexion</a>

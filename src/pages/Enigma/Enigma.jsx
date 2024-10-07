@@ -97,6 +97,20 @@ const Enigma = () => {
         }
     };
     
+    const handleTip = () => {
+        axios.get("/solutions/tip/" + id, {
+            params: {},
+            headers: {
+                "Authorization": "Bearer " + Cookies.get("token")
+            }})
+            .then((res) => {
+                setError("")
+                alert(res.data);
+            })
+            .catch(err => {
+                setError(err.message);
+        });
+    };
 
     return (
         <>
@@ -124,10 +138,15 @@ const Enigma = () => {
                     <input type="submit" value="Soumettre" />
                     { error.length > 0 ? <span>{error}</span> : null }
                     { validation ? <span>Solution validée</span> : null }
-                    <button>Indice</button>
                     </form>
                 : serverSolution ?
                     <input type="text" name="answer" id="answer" placeholder={serverSolution.solution} disabled/>
+                : null }
+
+                { enigma && enigma.tip && !(serverSolution.success && !serverSolution.tip_used)  ?
+                    <div className="eni-file">
+                        <button onClick={handleTip}>Prendre l&apos;indice</button>
+                    </div> 
                 : null }
                 
             </div>

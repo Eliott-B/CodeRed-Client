@@ -17,7 +17,6 @@ const Enigmas = () => {
             }
         })
         .then((res) => {
-            console.log(res.data);
             setEnigmas(res.data);
             if (res.data.length === 0) return;
         })

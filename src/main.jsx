@@ -13,6 +13,7 @@ import Enigmas from "./pages/Enigmas/Enigmas";
 import Enigma from "./pages/Enigma/Enigma";
 import Login from "./pages/Login/Login";
 import Admin from "./pages/Admin/Admin";
+import Scoreboard from "./pages/Scoreboard/Scoreboard";
 
 axios.defaults.baseURL = "http://localhost:8000/api";
 
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')).render(
 			<Routes>
 				<Route path="/" element={<Home/>} />
 				<Route path="/admin" element={<Admin/>}/>
+				<Route path="/scoreboard" element={<Scoreboard/>}/>
 				<Route path="/login" element={<Login/>}/>
 				<Route path="/enigmas" element={<Enigmas/>}/>
 				<Route path="/enigma/:id" element={<Enigma/>}/>

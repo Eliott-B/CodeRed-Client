@@ -57,14 +57,15 @@ const Enigma = () => {
 
     const validSolution = async (e) => {
         e.preventDefault();
-        if (serverSolution.solution !== userSolution) {
-            setError("Réponse invalide");
-            return;
-        }
+        // if (serverSolution.solution !== userSolution) {
+        //     setError("Réponse invalide");
+        //     return;
+        // }
         setError("");
-        await axios.put("/solutions/"+{id}+"/"+Cookies.get("groupId"), {
-            "success": true
-        }, {
+        await axios.put("/solutions/"+id, {
+            "answer": userSolution
+        }, {  
+            params: {},
             headers: {
                 "Authorization": "Bearer " + Cookies.get("token")
         }})
@@ -73,7 +74,12 @@ const Enigma = () => {
             setValidation(true);
         })
         .catch(err => {
-            setError(err.message);
+            if (err.status === 400) {
+                setError("Réponse invalide");
+            }
+            else {
+                setError(err.message);
+            }
         });
     }
 
@@ -90,19 +96,26 @@ const Enigma = () => {
                     </div>
                     
                 </div>
-                { serverSolution.length > 0 ? 
+                { serverSolution.length > 0 && serverSolution[0].input_file ?
                     <div className="eni-file">
                         <span>Filename.txt</span>
                         <a href=""><img src={serverSolution} alt="Download" /></a>
                     </div>
                     : null }
-                <form onSubmit={validSolution} method="post">
+
+                
+                { serverSolution.length > 0 && ! serverSolution[0].success ?
+                    <form onSubmit={validSolution} method="post">
                     <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
                     <input type="submit" value="Soumettre" />
                     { error.length > 0 ? <span>{error}</span> : null }
                     { validation ? <span>Solution validée</span> : null }
                     <button>Indice</button>
-                </form>
+                    </form>
+                : serverSolution.length > 0 ?
+                    <input type="text" name="answer" id="answer" placeholder={serverSolution[0].solution} disabled/>
+                : null }
+                
             </div>
         </>
     );

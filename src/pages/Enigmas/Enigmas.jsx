@@ -4,6 +4,8 @@ import Header from "../../components/Header/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import Title from "../../components/Title/Title";
+import EnigmasWrapper from "../../components/EnigmasWrapper/EnigmasWrapper";
 
 const Enigmas = () => {
     const [enigmas, setEnigmas] = useState([]);
@@ -25,19 +27,13 @@ const Enigmas = () => {
         });
     }, []);
 
+
     return (
         <>
             <Header/>
             <div className="enigmas-body">
-                <h2>Vos enigmes</h2>
-                <ul>
-                    {enigmas.map((enigma) => (
-                        <li key={enigma.id} className="enili" data-id={enigma.id}>
-                            <h4 className="enili-title" style={{color: "red"}}>{enigma.title}</h4>
-                            <a href={"/enigma/" + enigma.id}><img className="eni-icon" src={"test"} alt="Icon" style={{ backgroundColor: "red" }} /></a>
-                        </li>
-                    ))}
-                </ul>
+                <Title color="rose">Vos énigmes</Title>
+                <EnigmasWrapper enigmas={enigmas} />
             </div>
         </>
     );

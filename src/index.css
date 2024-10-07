@@ -1,0 +1,31 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: "IBM Plex Mono", sans-serif;
+    margin: 0;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0;
+    font-weight: normal;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+@font-face {
+    font-family: "IBM Plex Mono";
+    src: url(./assets/fonts/IBMPlexMono-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "OCR A Extended";
+    src: url(./assets/fonts/OCRAEXT.TTF) format("truetype");
+}

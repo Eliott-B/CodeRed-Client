@@ -1,0 +1,27 @@
+li.enili {
+  list-style-type: none;
+}
+
+button {
+  color: var(--enigma-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #080d19;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  transition: 0.3s;
+}
+button h4 {
+  text-decoration: none;
+  font-family: "OCR A Extended";
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+button:hover {
+  cursor: pointer;
+  filter: brightness(1.3);
+  transition: 0.3s;
+}

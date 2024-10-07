@@ -39,9 +39,7 @@ const Header = () => {
                 }
             })
             .then(response => {
-                console.log(response.data.points);
                 group["points"] = response.data.points;
-                console.log(group["points"]);
             })
             .catch(err => {
                 console.log(err.message);

@@ -12,7 +12,6 @@ const Enigma = () => {
     const [enigma, setEnigma] = useState({});
     const [serverSolution, setServerSolution] = useState({});
     const [userSolution, setUserSolution] = useState("");
-    const [downloadLink, setDownloadLink] = useState(null);
     const [error, setError] = useState("");
     const [validation, setValidation] = useState(false);
 
@@ -31,7 +30,7 @@ const Enigma = () => {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         axios
@@ -44,25 +43,6 @@ const Enigma = () => {
             })
             .then((res) => {
                 setServerSolution(res.data);
-                if (res.data && res.data.input_file && res.data.input_file.data) {
-                    const fileData = res.data.input_file.data;
-                    console.log("Received file data:", fileData);
-                    const bytes = new Uint8Array(fileData);
-
-                    // Utilisez TextDecoder pour convertir les octets en chaîne de caractères
-                    const decoder = new TextDecoder('utf-8');
-                    const fileContent = decoder.decode(bytes);
-
-                    console.log("Decoded file content:", fileContent);
-
-                    // Créez un Blob à partir de la chaîne de caractères
-                    const textBlob = new Blob([fileContent], { type: 'text/plain' });
-
-                    // Générez une URL de téléchargement à partir du Blob
-                    const url = window.URL.createObjectURL(textBlob);
-                    setDownloadLink(url);
-                }
-        
             })
             .catch((err) => {
                 console.log(err);
@@ -96,14 +76,27 @@ const Enigma = () => {
                 }
         });
     }
-
     const handleDownload = () => {
-        const a = document.createElement('a');
-        a.href = downloadLink;
-        a.download = 'input.txt';
-        a.click();
-        URL.revokeObjectURL(downloadLink);
+        if (serverSolution && serverSolution.input_file && serverSolution.input_file.data) {
+            const fileData = serverSolution.input_file.data;
+            const bytes = new Uint8Array(fileData);
+            const decoder = new TextDecoder('utf-8');
+            const fileContent = decoder.decode(bytes);
+            const fileDecodedFromBase64 = atob(fileContent);
+
+            const textBlob = new Blob([fileDecodedFromBase64], { type: 'text/plain' });
+
+            const url = window.URL.createObjectURL(textBlob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'input.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
     };
+    
 
     return (
         <>

@@ -56,35 +56,38 @@ const SolutionCreation = () => {
         setError("");
 
         let reader = new FileReader();
-        let fileByteArray = [];
-        reader.readAsArrayBuffer(inputFile[0]);
-        reader.onloadend = function (evt) {
-            if (evt.target.readyState == FileReader.DONE) {
-                let arrayBuffer = evt.target.result,
-                array = new Uint8Array(arrayBuffer);
-                for (let i = 0; i < array.length; i++) {
-                    fileByteArray.push(array[i]);
-                }
 
-                axios.post("/solutions/", {
-                    "enigmaId": enigmaId,
-                    "groupId": groupId,
-                    "solution": solution,
-                    "inputFile": JSON.stringify(fileByteArray),
-                    "consoleOutput": consoleLog
-                }, {
-                    headers: {
-                        "Authorization": "Bearer " + Cookies.get("token")
-                }})
-                .then(() => {
-                    setError("")
+        reader.onloadend = async function (evt) {
+            if (evt.target.readyState === FileReader.DONE) {
+                const arrayBuffer = evt.target.result;
+                const uint8Array = new Uint8Array(arrayBuffer);
+                const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
+
+                try {
+                    await axios.post("/solutions/", {
+                        enigmaId,
+                        groupId,
+                        solution,
+                        inputFile: base64String,
+                        consoleOutput: consoleLog
+                    }, {
+                        headers: {
+                            Authorization: "Bearer " + Cookies.get("token")
+                        }
+                    });
+
+                    setError("");
                     setValidation(true);
-                })
-                .catch(err => {
+                } catch (err) {
                     setError(err.message);
-                });
+                }
             }
-        }
+        };
+        
+
+        
+
+        reader.readAsArrayBuffer(inputFile[0]);
 
         // const fileReader = new FileReader();
 

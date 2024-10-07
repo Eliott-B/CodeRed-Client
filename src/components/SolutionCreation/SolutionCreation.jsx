@@ -83,40 +83,7 @@ const SolutionCreation = () => {
                 }
             }
         };
-        
-
-        
-
         reader.readAsArrayBuffer(inputFile[0]);
-
-        // const fileReader = new FileReader();
-
-        // fileReader.onload = async function(event) {
-        //     const arrayBuffer = event.target.result;
-        //     const uint8Array = new Uint8Array(arrayBuffer);
-        //     const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
-        //     // Utiliser le tableau de bytes comme vous le souhaitez
-        //     await axios.post("/solutions/", {
-        //         "enigmaId": enigmaId,
-        //         "groupId": groupId,
-        //         "solution": solution,
-        //         "inputFile": base64String,
-        //         "consoleOutput": consoleLog
-        //     }, {
-        //         headers: {
-        //             "Authorization": "Bearer " + Cookies.get("token")
-        //     }})
-        //     .then(() => {
-        //         setError("")
-        //         setValidation(true);
-        //     })
-        //     .catch(err => {
-        //         setError(err.message);
-        //     });
-        //   };
-        
-        // console.log(inputFile[0]);
-        // fileReader.readAsArrayBuffer(inputFile[0]);
     }
 
     return (

@@ -51,10 +51,10 @@ const Enigma = () => {
 
     const validSolution = (e) => {
         e.preventDefault();
-        // if (serverSolution.solution !== userSolution) {
-        //     setError("Réponse invalide");
-        //     return;
-        // }
+        if (serverSolution.solution !== userSolution) {
+            setError("Réponse invalide");
+            return;
+        }
         setError("");
         axios.put("/solutions/"+id, {
             "answer": userSolution

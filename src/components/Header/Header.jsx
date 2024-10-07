@@ -51,10 +51,10 @@ const Header = () => {
             <nav>
                 <ul>
                     <li><a href="/"
-                        class={window.location.pathname === "/" ? "active" : ""}
+                        className={window.location.pathname === "/" ? "active" : ""}
                     >Accueil</a></li>
                     <li><a href="/enigmas"
-                        class={window.location.pathname === "/enigmas" ? "active" : ""}>Enigmes</a></li>
+                        className={window.location.pathname === "/enigmas" ? "active" : ""}>Enigmes</a></li>
                 </ul>
             </nav>
             {isConnected ?

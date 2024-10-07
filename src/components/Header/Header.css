@@ -45,6 +45,8 @@ header .group-box {
   flex: 1;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
 }
 header .login {
   color: #fc3cb2;

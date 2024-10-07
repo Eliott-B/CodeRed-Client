@@ -6,10 +6,8 @@ import Cookies from "js-cookie";
 
 const Header = () => {
     const [isConnected, setConnected] = useState(false);
-    const [group, setGroup] = useState({
-        "name": "Undefined",
-        "points": 0
-    });
+    const [group, setGroup] = useState({"name": "Undefined"});
+    const [points, setPoints] = useState({"points": 0});
 
     useEffect(() => {
         axios.post("/groups/auth", { token: Cookies.get("token") })
@@ -33,13 +31,13 @@ const Header = () => {
                 console.log(err.message);
             });
 
-            axios.get("/groups/points/" + Cookies.get("groupId"), {
+            axios.get("/groups/selfPoints/", {
                 headers: {
                     "Authorization": "Bearer " + Cookies.get("token")
                 }
             })
             .then(response => {
-                group["points"] = response.data.points;
+                setPoints(response.data);
             })
             .catch(err => {
                 console.log(err.message);
@@ -57,7 +55,7 @@ const Header = () => {
             {isConnected ? 
             <div className="group-box">
                 <h2>{group.name}</h2>
-                <span>Score: {group.points || 0}pts</span>
+                <span>Score: {points.points || 0}pts</span>
             </div>
             :
             <a href="/login">Connexion</a>

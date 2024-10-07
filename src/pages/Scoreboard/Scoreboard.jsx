@@ -50,14 +50,16 @@ const Scoreboard = () => {
 
     return (
         <>
-            <h2>Scoreboard</h2>
-            <table>
-                <tr>
-                    <th>Group</th>
-                    <th>Points</th>
-                </tr>
-                {lines}
-            </table>
+            <h1>Scoreboard</h1>
+            <div className="scoreboard">
+                <table>
+                    <tr>
+                        <th>Group</th>
+                        <th>Points</th>
+                    </tr>
+                    {lines}
+                </table>
+            </div>
         </>
     );
 };

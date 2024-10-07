@@ -57,14 +57,15 @@ const Enigma = () => {
 
     const validSolution = async (e) => {
         e.preventDefault();
-        if (serverSolution.solution !== userSolution) {
-            setError("Réponse invalide");
-            return;
-        }
+        // if (serverSolution.solution !== userSolution) {
+        //     setError("Réponse invalide");
+        //     return;
+        // }
         setError("");
-        await axios.put("/solutions/"+{id}+"/"+Cookies.get("groupId"), {
-            "success": true
-        }, {
+        await axios.put("/solutions/"+id, {
+            "answer": userSolution
+        }, {  
+            params: {},
             headers: {
                 "Authorization": "Bearer " + Cookies.get("token")
         }})
@@ -73,7 +74,12 @@ const Enigma = () => {
             setValidation(true);
         })
         .catch(err => {
-            setError(err.message);
+            if (err.status === 400) {
+                setError("Réponse invalide");
+            }
+            else {
+                setError(err.message);
+            }
         });
     }
 

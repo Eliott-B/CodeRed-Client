@@ -4,7 +4,8 @@ import Header from "../../components/Header/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import arrow_right from "../../assets/arrow_right.svg";
+import Title from "../../components/Title/Title";
+import EnigmasWrapper from "../../components/EnigmasWrapper/EnigmasWrapper";
 
 const Enigmas = () => {
     const [enigmas, setEnigmas] = useState([]);
@@ -26,19 +27,38 @@ const Enigmas = () => {
         });
     }, []);
 
+
     return (
         <>
             <Header/>
             <div className="enigmas-body">
-                <h2>Vos énigmes</h2>
-                <ul className="enigmas-list">
+                <Title color="rose">Vos énigmes</Title>
+                <EnigmasWrapper enigmas={enigmas} />
+                {/* <ul className="enigmas-list">
+                    <li key={1} className="enili" data-id={1}>
+                        <h4 className="enili-title" style={{color: "red"}}>{"Enigme 1"}</h4>
+                        <a href={"/enigma/" + 1}><img className="eni-icon" src={arrow_right} alt="Icon" style={{ backgroundColor: "red" }} /></a>
+                    </li>
+                    <li key={1} className="enili" data-id={1}>
+                        <h4 className="enili-title" style={{color: "red"}}>{"Enigme 2"}</h4>
+                        <a href={"/enigma/" + 1}><img className="eni-icon" src={arrow_right} alt="Icon" style={{ backgroundColor: "red" }} /></a>
+                    </li>
+                    <li key={1} className="enili" data-id={1}>
+                        <h4 className="enili-title" style={{color: "red"}}>{"Enigme 3"}</h4>
+                        <a href={"/enigma/" + 1}><img className="eni-icon" src={arrow_right} alt="Icon" style={{ backgroundColor: "red" }} /></a>
+                    </li>
+                    <li key={1} className="enili" data-id={1}>
+                        <h4 className="enili-title" style={{color: "red"}}>{"Enigme 4"}</h4>
+                        <a href={"/enigma/" + 1}><img className="eni-icon" src={arrow_right} alt="Icon" style={{ backgroundColor: "red" }} /></a>
+                    </li>
+
                     {enigmas.map((enigma) => (
                         <li key={enigma.id} className="enili" data-id={enigma.id}>
                             <h4 className="enili-title" style={{color: "red"}}>{enigma.title}</h4>
                             <a href={"/enigma/" + enigma.id}><img className="eni-icon" src={arrow_right} alt="Icon" style={{ backgroundColor: "red" }} /></a>
                         </li>
                     ))}
-                </ul>
+                </ul> */}
             </div>
         </>
     );

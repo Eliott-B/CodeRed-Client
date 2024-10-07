@@ -30,9 +30,11 @@ const Enigma = () => {
             .catch((err) => {
                 console.log(err);
             });
+    }, []);
 
+    useEffect(() => {
         axios
-            .get("/solutions/" + Cookies.get("groupId"), {
+            .get("/solutions/" + enigma.id + "/" + Cookies.get("groupId"), {
                 params: {},
                 headers: {
                     "Content-Type": "application/json",
@@ -41,11 +43,17 @@ const Enigma = () => {
             })
             .then((res) => {
                 setServerSolution(res.data);
+                if (res.data.length > 0) {
+                    let consoleOutput = res.data[0].console_output;
+                    if (consoleOutput) {
+                        console.log(res.data[0].console_output);
+                    }
+                }
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [enigma]);
 
     const validSolution = async (e) => {
         e.preventDefault();

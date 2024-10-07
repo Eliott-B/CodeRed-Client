@@ -96,19 +96,26 @@ const Enigma = () => {
                     </div>
                     
                 </div>
-                { serverSolution.length > 0 ? 
+                { serverSolution.length > 0 && serverSolution[0].input_file ?
                     <div className="eni-file">
                         <span>Filename.txt</span>
                         <a href=""><img src={serverSolution} alt="Download" /></a>
                     </div>
                     : null }
-                <form onSubmit={validSolution} method="post">
+
+                
+                { serverSolution.length > 0 && ! serverSolution[0].success ?
+                    <form onSubmit={validSolution} method="post">
                     <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
                     <input type="submit" value="Soumettre" />
                     { error.length > 0 ? <span>{error}</span> : null }
                     { validation ? <span>Solution validée</span> : null }
                     <button>Indice</button>
-                </form>
+                    </form>
+                : serverSolution.length > 0 ?
+                    <input type="text" name="answer" id="answer" placeholder={serverSolution[0].solution} disabled/>
+                : null }
+                
             </div>
         </>
     );

@@ -1,0 +1,73 @@
+.login-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100vh;
+}
+.login-body .login-box {
+  background-color: #080d19;
+  border-radius: 25px;
+  padding: 10vh;
+  box-shadow: 0 0 15px 5px #fc3cb2;
+}
+.login-body .login-box .name-box {
+  display: flex;
+  flex-direction: column;
+}
+.login-body .login-box .name-box label {
+  margin-left: 20px;
+}
+.login-body .login-box .name-box input {
+  background-color: #121827;
+  border-radius: 25px;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  color: #fc3cb2;
+  font-family: "IBM Plex Mono", monospace;
+}
+.login-body .login-box .name-box input:focus {
+  outline: 1px solid #fc3cb2;
+}
+.login-body .login-box .password-box {
+  display: flex;
+  flex-direction: column;
+}
+.login-body .login-box .password-box label {
+  margin-left: 20px;
+}
+.login-body .login-box .password-box input {
+  background-color: #121827;
+  border-radius: 25px;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  color: #fc3cb2;
+  font-family: "IBM Plex Mono", monospace;
+}
+.login-body .login-box .password-box input:focus {
+  outline: 1px solid #fc3cb2;
+}
+.login-body .login-box input[type=submit] {
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: "OCR A Extended";
+  background-color: #121827;
+  border: none;
+  font-size: 1.5em;
+  border-radius: 25px;
+  padding: 10px;
+  color: white;
+  margin: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.login-body .login-box input[type=submit]:hover {
+  transition: 0.3s;
+  filter: brightness(1.2);
+}

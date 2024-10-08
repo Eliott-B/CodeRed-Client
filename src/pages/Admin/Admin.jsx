@@ -18,6 +18,7 @@ const Admin = () => {
         })
         .catch(err => {
             console.log(err.message);
+            window.location.href = "/";
         });
 
     return (

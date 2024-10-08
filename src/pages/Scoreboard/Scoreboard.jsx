@@ -18,6 +18,7 @@ const Scoreboard = () => {
         })
         .catch(err => {
             console.log(err.message);
+            window.location.href = "/";
     });
 
 

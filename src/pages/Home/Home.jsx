@@ -9,7 +9,7 @@ const Home = () => {
                 <h2>Note de <span className="glow">mission</span></h2>
                 <div className="h-infos">
                     <p className="h-intro">
-                        Bienvenue agent, ceci est un rappel de votre mission et de son objectif. Votre mission si toutefois vous l'acceptez est de protéger New Eden de l’attaque qu’elle subit. Pour cela vous devez résoudre différentes énigmes en équipe. Chaque énigme rapporte un nombre de points qui sera cumulé aux autres à la fin de votre mission. Les 3 meilleures équipes seront récompensées.
+                        Bienvenue agent, ceci est un rappel de votre mission et de son objectif. Votre mission si toutefois vous l&apos;acceptez est de protéger New Eden de l’attaque qu’elle subit. Pour cela vous devez résoudre différentes énigmes en équipe. Chaque énigme rapporte un nombre de points qui sera cumulé aux autres à la fin de votre mission. Les 3 meilleures équipes seront récompensées.
                     </p>
                     <div className="h-team">
                         <h3>Votre équipe :</h3>
@@ -51,6 +51,8 @@ const Home = () => {
                                 <li>L’utilisation d’IA est proscrite</li>
                             </ol>
                         </p>
+
+                        <p className="slogan"> Tout finira là où tout commence, le monde n&apos;est rien de plus qu&apos;une boucle.</p>
                     </div>
                     <div className="h-i-footer">
                         <span className="glow">BONNE MISSION AGENT !</span>

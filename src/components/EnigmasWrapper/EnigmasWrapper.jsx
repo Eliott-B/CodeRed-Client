@@ -4,11 +4,10 @@ import EnigmaTile from "../EnigmaTile/EnigmaTile";
 
 
 const EnigmasWrapper = ({ enigmas }) => {
-
     return (
         <ul className="wrapper">
             {enigmas.map((enigma) => (
-                <EnigmaTile key={enigma.id} title={enigma.title} isSolved={enigma.isSolved} id={enigma.id} />
+                <EnigmaTile key={enigma.id} title={enigma.title} isSolved={!!enigma.isSolved} id={enigma.id} />
             ))}
         </ul>
     );

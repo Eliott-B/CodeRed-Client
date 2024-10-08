@@ -6,6 +6,13 @@ import Header from "../../components/Header/Header";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import Title from "../../components/Title/Title";
+
+import Markdown from 'react-markdown'
+import Button from "../../components/Button/Button";
+import TipIcon from "./TipIcon";
+import AnswerIcon from "./AnswerIcon";
+import DownloadIcon from "./DownloadIcon";
 
 const Enigma = () => {
     const { id } = useParams();
@@ -51,10 +58,6 @@ const Enigma = () => {
 
     const validSolution = (e) => {
         e.preventDefault();
-        if (serverSolution.solution !== userSolution) {
-            setError("Réponse invalide");
-            return;
-        }
         setError("");
         axios.put("/solutions/"+id, {
             "answer": userSolution
@@ -78,7 +81,13 @@ const Enigma = () => {
     }
     const handleDownload = () => {
         if (serverSolution && serverSolution.input_file && serverSolution.input_file.data) {
+
+            console.log(serverSolution.input_file.data);
+
             const fileData = serverSolution.input_file.data;
+
+            console.log(fileData);
+
             const bytes = new Uint8Array(fileData);
             const decoder = new TextDecoder('utf-8');
             const fileContent = decoder.decode(bytes);
@@ -94,6 +103,18 @@ const Enigma = () => {
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+        }
+    };
+
+    const handleDescription = () => {
+        if (enigma.description) {
+            const fileData = enigma.description.data;
+            const bytes = new Uint8Array(fileData);
+            const decoder = new TextDecoder('utf-8');
+            const fileContent = decoder.decode(bytes);
+            const fileDecodedFromBase64 = atob(fileContent);
+            console.log(fileDecodedFromBase64);
+            return decodeURIComponent(escape(fileDecodedFromBase64));
         }
     };
     
@@ -116,36 +137,37 @@ const Enigma = () => {
         <>
             <Header/>
             <div className="eni-body">
-                <h2>Enigme n°{id} - {enigma.title}</h2>
+                <Title color="rose">Enigme n°{id} - {enigma.title}</Title>
                 <div className="eni-content">
                     <div className="eni-desc">
-                        <p>
-                            {enigma.description}
-                        </p>
+                        <Markdown>
+                            {handleDescription()}
+                        </Markdown>
                     </div>
-                    
                 </div>
                 { serverSolution && serverSolution.input_file ?
                     <div className="eni-file">
-                        <button onClick={handleDownload}>Télécharger le fichier</button>
+                        <Button icon={<DownloadIcon/>} onClick={handleDownload}>Télécharger le fichier</Button>
                     </div>
                     : null }
-
                 
                 { serverSolution && ! serverSolution.success ?
-                    <form onSubmit={validSolution} method="post">
-                    <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
-                    <input type="submit" value="Soumettre" />
-                    { error.length > 0 ? <span>{error}</span> : null }
-                    { validation ? <span>Solution validée</span> : null }
+                <>
+                <form className="eni-form"onSubmit={validSolution} method="post">
+                        <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
+                        <input type="submit" value="Soumettre" />
+                        { error.length > 0 ? <span>{error}</span> : null }
+                        { validation ? <span>Solution validée</span> : null }
                     </form>
+                </>
+                    
                 : serverSolution ?
                     <input type="text" name="answer" id="answer" placeholder={serverSolution.solution} disabled/>
                 : null }
 
                 { enigma && enigma.tip && !(serverSolution.success && !serverSolution.tip_used)  ?
                     <div className="eni-file">
-                        <button onClick={handleTip}>Prendre l&apos;indice</button>
+                        <Button icon={<TipIcon/>} onClick={handleTip}>Prendre l&apos;indice</Button>
                     </div> 
                 : null }
                 

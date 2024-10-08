@@ -12,9 +12,9 @@ const EnigmaTile = ({ id, title, isSolved }) => {
    }   } , [isSolved, id]);
     return (
         <li className="enili" data-id={id}>
-            <button id={"button_" + id} onClick={() => window.location.href = "/enigma/" + id}>
-                    <h4 className="enili-title">{title}</h4>
-                    <EnigmaIcon isSolved={isSolved} />
+            <button id={"button_" + id} onClick={() => window.location.href = "/enigma/" + id} className="enigm">
+                    <h4 className="enili-title">{id} - {title}</h4>
+                    <EnigmaIcon isSolved={!!isSolved} />
             </button>
         </li>
 

@@ -1,0 +1,50 @@
+.eni-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 5% 25%;
+  gap: 20px;
+}
+.eni-body .eni-content .eni-desc {
+  background-color: #080d19;
+  border-radius: 25px;
+  padding: 20px 20px 20px 20px;
+}
+.eni-body .eni-content .eni-desc pre {
+  font-family: consolas, monospace;
+  background-color: #05070c;
+  border-radius: 15px;
+  padding: 20px;
+}
+.eni-body .eni-file {
+  justify-content: center;
+}
+.eni-body .eni-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.eni-body .eni-form input {
+  background-color: #080d19;
+  border-radius: 25px;
+  padding: 10px;
+  color: white;
+  border: 1px solid #080d19;
+  margin: 10px;
+}
+.eni-body .eni-form input[type=text] {
+  font-family: "IBM Plex Mono", monospace;
+}
+.eni-body .eni-form input[type=text]:focus {
+  outline: 1px solid #fc3cb2;
+}
+.eni-body .eni-form input[type=submit] {
+  font-family: "OCR A Extended";
+  cursor: pointer;
+  transition: 0.3s;
+}
+.eni-body .eni-form input[type=submit]:hover {
+  transition: 0.3s;
+  filter: brightness(1.2);
+}

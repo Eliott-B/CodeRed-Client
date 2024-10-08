@@ -81,13 +81,7 @@ const Enigma = () => {
     }
     const handleDownload = () => {
         if (serverSolution && serverSolution.input_file && serverSolution.input_file.data) {
-
-            console.log(serverSolution.input_file.data);
-
             const fileData = serverSolution.input_file.data;
-
-            console.log(fileData);
-
             const bytes = new Uint8Array(fileData);
             const decoder = new TextDecoder('utf-8');
             const fileContent = decoder.decode(bytes);
@@ -113,7 +107,6 @@ const Enigma = () => {
             const decoder = new TextDecoder('utf-8');
             const fileContent = decoder.decode(bytes);
             const fileDecodedFromBase64 = atob(fileContent);
-            console.log(fileDecodedFromBase64);
             return decodeURIComponent(escape(fileDecodedFromBase64));
         }
     };

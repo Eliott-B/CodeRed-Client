@@ -24,6 +24,13 @@
   color: #fc3cb2;
 }
 
+.slogan {
+  margin-top: 20px;
+  text-align: center;
+  color: red;
+  text-shadow: 0 0 10px red;
+}
+
 .glow {
   color: #fc3cb2;
 }

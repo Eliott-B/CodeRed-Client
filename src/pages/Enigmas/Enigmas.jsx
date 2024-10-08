@@ -47,9 +47,11 @@ const Enigmas = () => {
         };
 
         if (enigmas.length > 0) {
-            fetchSolutions();
+            const timeoutId = setTimeout(fetchSolutions, 1000);
+            return () => clearTimeout(timeoutId);
         }
     }, [enigmas]);
+
 
     return (
         <>

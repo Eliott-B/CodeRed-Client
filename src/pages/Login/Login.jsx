@@ -50,7 +50,7 @@ const Login = () => {
             <form className="login-box" onSubmit={login}>
                 <Title color="white">Connexion</Title>
                 <div className="name-box">
-                    <label htmlFor="name">Nom de l'équipe :</label>
+                    <label htmlFor="name">Nom de l&apos;équipe :</label>
                     <input type="text" name="name" id="name" onChange={(e) => setGroupName(e.target.value)}/>
                     { errors["name"].length !== 0 ? <span className="error">{errors["name"]}</span> : null }
                 </div>

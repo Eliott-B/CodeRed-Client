@@ -7,6 +7,7 @@ const EnigmasWrapper = ({ enigmas }) => {
     return (
         <ul className="wrapper">
             {enigmas.map((enigma) => (
+                enigma.enabled &&
                 <EnigmaTile key={enigma.id} title={enigma.title} isSolved={!!enigma.isSolved} id={enigma.id} />
             ))}
         </ul>

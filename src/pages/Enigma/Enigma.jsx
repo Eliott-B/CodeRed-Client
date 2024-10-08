@@ -6,6 +6,13 @@ import Header from "../../components/Header/Header";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import Title from "../../components/Title/Title";
+
+import Markdown from 'react-markdown'
+import Button from "../../components/Button/Button";
+import TipIcon from "./TipIcon";
+import AnswerIcon from "./AnswerIcon";
+import DownloadIcon from "./DownloadIcon";
 
 const Enigma = () => {
     const { id } = useParams();
@@ -51,10 +58,6 @@ const Enigma = () => {
 
     const validSolution = (e) => {
         e.preventDefault();
-        if (serverSolution.solution !== userSolution) {
-            setError("Réponse invalide");
-            return;
-        }
         setError("");
         axios.put("/solutions/"+id, {
             "answer": userSolution
@@ -102,29 +105,28 @@ const Enigma = () => {
         <>
             <Header/>
             <div className="eni-body">
-                <h2>Enigme n°{id} - {enigma.title}</h2>
+                <Title color="rose">Enigme n°{id} - {enigma.title}</Title>
                 <div className="eni-content">
                     <div className="eni-desc">
-                        <p>
-                            {enigma.description}
-                        </p>
+                        <Markdown>
+                            {enigma.description ? new TextDecoder('utf-8').decode(Uint8Array.from(atob(enigma.description), c => c.charCodeAt(0))) : ""}
+                        </Markdown>
                     </div>
-                    
                 </div>
                 { serverSolution && serverSolution.input_file ?
                     <div className="eni-file">
-                        <button onClick={handleDownload}>Télécharger le fichier</button>
+                        <Button icon={<DownloadIcon/>} onClick={handleDownload}>Télécharger le fichier</Button>
                     </div>
                     : null }
-
                 
                 { serverSolution && ! serverSolution.success ?
                     <form onSubmit={validSolution} method="post">
                     <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
+                    
                     <input type="submit" value="Soumettre" />
                     { error.length > 0 ? <span>{error}</span> : null }
                     { validation ? <span>Solution validée</span> : null }
-                    <button>Indice</button>
+                    <Button icon={<TipIcon/>}>Indice</Button>
                     </form>
                 : serverSolution ?
                     <input type="text" name="answer" id="answer" placeholder={serverSolution.solution} disabled/>

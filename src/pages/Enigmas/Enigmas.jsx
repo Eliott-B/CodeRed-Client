@@ -20,13 +20,36 @@ const Enigmas = () => {
         })
         .then((res) => {
             setEnigmas(res.data);
-            if (res.data.length === 0) return;
         })
         .catch((err) => {
             console.log(err);
         });
     }, []);
 
+    useEffect(() => {
+        const fetchSolutions = async () => {
+            const updatedEnigmas = await Promise.all(enigmas.map(async (enigma) => {
+                try {
+                    const res = await axios.get("/solutions/" + enigma.id + "/" + Cookies.get("groupId"), {
+                        params: {},
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: "Bearer " + Cookies.get("token"),
+                        },
+                    });
+                    return { ...enigma, isSolved: !!res.data.success };
+                } catch (err) {
+                    console.log(err);
+                    return enigma;
+                }
+            }));
+            setEnigmas(updatedEnigmas);
+        };
+
+        if (enigmas.length > 0) {
+            fetchSolutions();
+        }
+    }, [enigmas]);
 
     return (
         <>
@@ -34,6 +57,7 @@ const Enigmas = () => {
             <div className="enigmas-body">
                 <Title color="rose">Vos énigmes</Title>
                 <EnigmasWrapper enigmas={enigmas} />
+            
             </div>
         </>
     );

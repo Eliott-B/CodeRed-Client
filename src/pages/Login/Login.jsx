@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import "./Login.css";
+import Title from "../../components/Title/Title";
 
 
 const Login = () => {
@@ -47,7 +48,7 @@ const Login = () => {
     return (
         <div className="login-body">
             <form className="login-box" onSubmit={login}>
-                <h2>Connexion</h2>
+                <Title color="white">Connexion</Title>
                 <div className="name-box">
                     <label htmlFor="name">Nom de l'équipe :</label>
                     <input type="text" name="name" id="name" onChange={(e) => setGroupName(e.target.value)}/>

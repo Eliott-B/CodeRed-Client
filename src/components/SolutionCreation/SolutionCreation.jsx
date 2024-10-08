@@ -61,7 +61,7 @@ const SolutionCreation = () => {
             if (evt.target.readyState === FileReader.DONE) {
                 const arrayBuffer = evt.target.result;
                 const uint8Array = new Uint8Array(arrayBuffer);
-                const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
+                const base64String = btoa(String.fromCharCode(...uint8Array));
 
                 try {
                     await axios.post("/solutions/", {

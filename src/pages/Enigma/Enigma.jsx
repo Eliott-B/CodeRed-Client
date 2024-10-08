@@ -11,7 +11,6 @@ import Title from "../../components/Title/Title";
 import Markdown from 'react-markdown'
 import Button from "../../components/Button/Button";
 import TipIcon from "./TipIcon";
-import AnswerIcon from "./AnswerIcon";
 import DownloadIcon from "./DownloadIcon";
 
 const Enigma = () => {
@@ -81,13 +80,7 @@ const Enigma = () => {
     }
     const handleDownload = () => {
         if (serverSolution && serverSolution.input_file && serverSolution.input_file.data) {
-
-            console.log(serverSolution.input_file.data);
-
             const fileData = serverSolution.input_file.data;
-
-            console.log(fileData);
-
             const bytes = new Uint8Array(fileData);
             const decoder = new TextDecoder('utf-8');
             const fileContent = decoder.decode(bytes);
@@ -113,7 +106,6 @@ const Enigma = () => {
             const decoder = new TextDecoder('utf-8');
             const fileContent = decoder.decode(bytes);
             const fileDecodedFromBase64 = atob(fileContent);
-            console.log(fileDecodedFromBase64);
             return decodeURIComponent(escape(fileDecodedFromBase64));
         }
     };
@@ -156,13 +148,15 @@ const Enigma = () => {
                 <form className="eni-form"onSubmit={validSolution} method="post">
                         <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
                         <input type="submit" value="Soumettre" />
-                        { error.length > 0 ? <span>{error}</span> : null }
-                        { validation ? <span>Solution validée</span> : null }
+                        { error.length > 0 ? <span className="error">{error}</span> : null }
+                        { validation ? <span className="success">Solution validée</span> : null }
                     </form>
                 </>
                     
                 : serverSolution ?
-                    <input type="text" name="answer" id="answer" placeholder={serverSolution.solution} disabled/>
+                    <form className="eni-form">
+                        <input type="text" name="answer" id="answer" placeholder={"Énigme validée."} disabled/>
+                    </form>
                 : null }
 
                 { enigma && enigma.tip && !(serverSolution.success && !serverSolution.tip_used)  ?

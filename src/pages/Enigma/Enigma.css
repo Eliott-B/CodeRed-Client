@@ -25,6 +25,17 @@
   display: flex;
   flex-direction: column;
 }
+.eni-body .eni-form span {
+  text-align: center;
+  font-size: 0.8em;
+  margin: 0 0 0 10px;
+}
+.eni-body .eni-form span.error {
+  color: RED;
+}
+.eni-body .eni-form span.success {
+  color: GREEN;
+}
 .eni-body .eni-form input {
   background-color: #080d19;
   border-radius: 25px;

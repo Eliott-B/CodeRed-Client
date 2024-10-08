@@ -17,24 +17,38 @@ const EnigmaCreation = () => {
     const createEnigma = async (e) => {
         e.preventDefault();
         setError("");
-        await axios.post("/enigmas/", {
-            "title": title,
-            "description": description,
-            "points": points,
-            "tip": tip,
-            "tip_cost": tipCost,
-            "final": final
-        }, {
-            headers: {
-                "Authorization": "Bearer " + Cookies.get("token")
-        }})
-        .then(() => {
-            setError("")
-            setValidation(true);
-        })
-        .catch(err => {
-            setError(err.message);
-        });
+
+        let reader = new FileReader();
+
+        reader.onloadend = async function (evt) {
+            if (evt.target.readyState === FileReader.DONE) {
+                const arrayBuffer = evt.target.result;
+                const uint8Array = new Uint8Array(arrayBuffer);
+                const base64String = btoa(String.fromCharCode.apply(null, uint8Array));
+
+                console.log(base64String);
+
+                try {
+                    await axios.post("/enigmas/", {
+                        "title": title,
+                        "description": base64String,
+                        "points": points,
+                        "tip": tip,
+                        "tip_cost": tipCost,
+                        "final": final
+                    }, {
+                        headers: {
+                            "Authorization": "Bearer " + Cookies.get("token")
+                        }
+                    });
+                    setError("");
+                    setValidation(true);
+                } catch (err) {
+                    setError(err.message);
+                }
+            }
+        };
+        reader.readAsArrayBuffer(description[0]);
     }
 
     return (
@@ -46,7 +60,7 @@ const EnigmaCreation = () => {
             </div>
             <div className="desc-box">
                 <label htmlFor="desc">Description :</label>
-                <input type="text" name="desc" id="desc" rows="5" size="50" maxLength="1000" onChange={(e) => setDescription(e.target.value)}/>
+                <input type="file" accept=".md" onChange={(e) => setDescription(e.target.files)}/>
             </div>
             <div className="points-box">
                 <label htmlFor="points">Points :</label>

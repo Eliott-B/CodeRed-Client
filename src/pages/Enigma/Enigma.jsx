@@ -81,7 +81,13 @@ const Enigma = () => {
     }
     const handleDownload = () => {
         if (serverSolution && serverSolution.input_file && serverSolution.input_file.data) {
+
+            console.log(serverSolution.input_file.data);
+
             const fileData = serverSolution.input_file.data;
+
+            console.log(fileData);
+
             const bytes = new Uint8Array(fileData);
             const decoder = new TextDecoder('utf-8');
             const fileContent = decoder.decode(bytes);
@@ -99,6 +105,18 @@ const Enigma = () => {
             document.body.removeChild(a);
         }
     };
+
+    const handleDescription = () => {
+        if (enigma.description) {
+            const fileData = enigma.description.data;
+            const bytes = new Uint8Array(fileData);
+            const decoder = new TextDecoder('utf-8');
+            const fileContent = decoder.decode(bytes);
+            const fileDecodedFromBase64 = atob(fileContent);
+            console.log(fileDecodedFromBase64);
+            return decodeURIComponent(escape(fileDecodedFromBase64));
+        }
+    };
     
 
     return (
@@ -109,7 +127,7 @@ const Enigma = () => {
                 <div className="eni-content">
                     <div className="eni-desc">
                         <Markdown>
-                            {enigma.description ? new TextDecoder('utf-8').decode(Uint8Array.from(atob(enigma.description), c => c.charCodeAt(0))) : ""}
+                            {handleDescription()}
                         </Markdown>
                     </div>
                 </div>
@@ -120,14 +138,18 @@ const Enigma = () => {
                     : null }
                 
                 { serverSolution && ! serverSolution.success ?
-                    <form onSubmit={validSolution} method="post">
-                    <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
-                    
-                    <input type="submit" value="Soumettre" />
-                    { error.length > 0 ? <span>{error}</span> : null }
-                    { validation ? <span>Solution validée</span> : null }
-                    <Button icon={<TipIcon/>}>Indice</Button>
+                <>
+                <form className="eni-form"onSubmit={validSolution} method="post">
+                        <input type="text" name="answer" id="answer" placeholder="Votre réponse..." onChange={(e) => setUserSolution(e.target.value)}/>
+                        
+                        <input type="submit" value="Soumettre" />
+                        { error.length > 0 ? <span>{error}</span> : null }
+                        { validation ? <span>Solution validée</span> : null }
                     </form>
+                    <Button icon={<TipIcon/>}>Indice</Button>
+
+                </>
+                    
                 : serverSolution ?
                     <input type="text" name="answer" id="answer" placeholder={serverSolution.solution} disabled/>
                 : null }

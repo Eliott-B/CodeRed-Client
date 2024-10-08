@@ -24,5 +24,35 @@
         &-file {
             justify-content: center;
         }
+        &-form {
+            width: 100%;
+
+            display: flex;
+            flex-direction: column;
+            input {
+                background-color: #080d19;
+                border-radius: 25px;
+                padding: 10px;
+                color: white;
+                border: 1px solid #080d19;
+                margin: 10px;
+                &[type="text"] {
+                    font-family: "IBM Plex Mono", monospace;
+                    &:focus {
+                        outline: 1px solid #fc3cb2;
+                    }
+                }
+                &[type="submit"] {
+                    font-family: "OCR A Extended";
+
+                    cursor: pointer;
+                    transition: 0.3s;
+                    &:hover {
+                        transition: 0.3s;
+                        filter: brightness(1.2);
+                    }
+                }
+            }
+        }
     }
 }
